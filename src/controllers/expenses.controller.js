@@ -98,7 +98,7 @@ exports.createExpense = async (req, res) => {
 };
 
 exports.getExpenseById = async (req, res) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
 
   const expense = await expenseService.getExpenseById(id);
 
@@ -118,7 +118,7 @@ exports.getExpenseById = async (req, res) => {
 };
 
 exports.deleteExpenseById = async (req, res) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
 
   const deleted = await expenseService.deleteExpenseById(id);
 
@@ -130,7 +130,7 @@ exports.deleteExpenseById = async (req, res) => {
 };
 
 exports.updateExpenseById = async (req, res) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
   const { category, ...data } = req.body;
 
   if (!req.body || !Object.keys(req.body).length) {
@@ -158,17 +158,15 @@ exports.updateExpenseById = async (req, res) => {
     return res.status(404).json({ error: 'Expense not found' });
   }
 
-  const categoryEntiity = await categoryService.getCategoryById(
-    updated.categoryId,
-  );
+  const fullExpense = await expenseService.getExpenseById(id);
 
   res.json({
-    id: updated.id,
-    userId: updated.userId,
-    spentAt: updated.spentAt,
-    title: updated.title,
-    amount: updated.amount,
-    note: updated.note,
-    category: categoryEntiity.name,
+    id: fullExpense.id,
+    userId: fullExpense.userId,
+    spentAt: fullExpense.spentAt,
+    title: fullExpense.title,
+    amount: fullExpense.amount,
+    note: fullExpense.note,
+    category: fullExpense.Category?.name || null,
   });
 };

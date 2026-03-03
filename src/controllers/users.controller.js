@@ -19,7 +19,7 @@ exports.createUser = async (req, res) => {
 };
 
 exports.getUserById = async (req, res) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
   const user = await userService.getUserById(id);
 
   if (!user) {
@@ -30,7 +30,7 @@ exports.getUserById = async (req, res) => {
 };
 
 exports.deleteUserById = async (req, res) => {
-  const id = req.params.id;
+  const id = Number(req.params.id);
   const deleted = await userService.deleteUserById(id);
 
   if (!deleted) {
