@@ -1,17 +1,25 @@
-const {
-  models: { Expense },
-} = require('../models/models');
+const { Expense, Category } = require('../models/models').models;
 
 const createExpense = async (data) => {
   return Expense.create(data);
 };
 
-const getExpenses = async () => {
-  return Expense.findAll();
+const getExpenses = () => {
+  return Expense.findAll({
+    include: {
+      model: Category,
+      attributes: ['name'],
+    },
+  });
 };
 
-const getExpenseById = async (id) => {
-  return Expense.findByPk(id);
+const getExpenseById = (id) => {
+  return Expense.findByPk(id, {
+    include: {
+      model: Category,
+      attributes: ['name'],
+    },
+  });
 };
 
 const deleteExpenseById = async (id) => {

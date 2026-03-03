@@ -38,9 +38,15 @@ const Expense = sequelize.define(
       allowNull: false,
     },
 
-    category: {
-      type: DataTypes.STRING,
+    categoryId: {
+      type: DataTypes.INTEGER,
       allowNull: true,
+      references: {
+        model: 'Categories',
+        key: 'id',
+      },
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     },
 
     note: {
